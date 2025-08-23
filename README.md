@@ -17,6 +17,6 @@ Aplikasi web sederhana untuk monitoring stok ternak, jenis ternak, dan riwayat p
 - JavaScript
 
 ## Demo
-![Screenshot](assets/dashboard.png)
+![Screenshot](assets/img/dashboard.png)
 
 > Proyek ini dibuat untuk kegiatan KKN.
