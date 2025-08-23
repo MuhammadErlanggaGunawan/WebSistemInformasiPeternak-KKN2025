@@ -2,12 +2,18 @@ $(document).ready(function () {
   // Inisialisasi Select2
   $(".select2-users").select2({
     placeholder: "Pilih User",
-    allowClear: true,
+
     width: "100%",
   });
   $(".select2-ternak").select2({
     placeholder: "Pilih Jenis Ternak",
-    allowClear: true,
+
+    width: "100%",
+  });
+  // Inisialisasi select2 untuk kategori
+  $(".select2-kategori").select2({
+    placeholder: "Pilih Kategori",
+
     width: "100%",
   });
 
@@ -46,6 +52,8 @@ $(document).ready(function () {
       modal.find("#idStokInput").val(id_stok);
       modal.find("#idUserSelect").val(row.data("user-id")).trigger("change").prop("disabled", true);
       modal.find("#idJenisSelect").val(row.data("jenis-id")).trigger("change");
+      // set kategori dari data atribut row (pastikan data-kategori-id ada di <tr>)
+      modal.find("#idKategoriSelect").val(row.data("kategori-id")).trigger("change");
       modal.find("#jumlahJantan").val(row.find("td:eq(5)").text());
       modal.find("#jumlahBetina").val(row.find("td:eq(4)").text());
       modal.find("#keteranganTextarea").val(row.find("td:eq(7)").text());
@@ -66,10 +74,8 @@ $(document).ready(function () {
       modal.find("#idUserSelect").prop("disabled", false);
       modal.find("#tanggalInput").val(getLocalDateTime());
 
-      // Disable user yang sudah punya stok
-      $("#idUserSelect option").each(function () {
-        $(this).prop("disabled", $(this).data("has-stok") == 1);
-      });
+      // pastikan kategori kosong di mode insert
+      modal.find("#idKategoriSelect").val(null).trigger("change");
     }
   });
 

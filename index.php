@@ -1,696 +1,314 @@
 <?php
 require 'function.php';
-require 'ceklogin.php';
+// Tidak perlu cek login di sini agar halaman bisa diakses publik
+// require 'ceklogin.php';
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.php">STOK TERNAK</a>
-            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ml-auto ml-md-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
-                                        </nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">401 Page</a>
-                                            <a class="nav-link" href="404.html">404 Page</a>
-                                            <a class="nav-link" href="500.html">500 Page</a>
-                                        </nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
-                        </div>
-                    </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
-                    </div>
-                </nav>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="./assets/img/log.png">
+  <title>SITernak Cimande</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900">
+  <link href="css/nucleo-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+  <!-- PERBAIKAN: Tambahkan Font Awesome untuk ikon sosial media -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link id="pagestyle" href="css/material-kit.css?v=3.1.0" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="index-page bg-gray-200">
+
+  <!-- Navbar -->
+  <?php 
+    $currentPage = 'beranda'; // Set halaman aktif
+    require 'templates/navbar.php'; 
+  ?>
+
+  <header class="header-2">
+    <div class="page-header min-vh-75 relative" style="background-image: url('./assets/img/bg21.png')">
+      <span class="mask bg-gradient-dark opacity-4"></span>
+      <div class="container"><div class="row"><div class="col-lg-7 text-center mx-auto"><img src="./assets/img/log.png" height="100px" alt="SITernak Logo" class="mb-3"><h1 class="text-white font-weight-black">Sistem Informasi Ternak</h1><p class="lead text-white mt-3">Data Populasi Hewan Ternak<br>Di Desa Cimande, Bogor, Jawa Barat</p></div></div></div>
+    </div>
+  </header>
+
+  <!-- Card Utama untuk Statistik dan Grafik -->
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+    <!-- ... (Section Statistik) ... -->
+    <section class="pt-3 pb-4" id="count-stats">
+      <div class="container">
+        <h5 class="mt-3" style="text-align: center;">Total Populasi Hewan Ternak Utama</h5>
+        <div class="row">
+          <div class="col-lg-12 mx-auto py-3">
+            <div class="row">
+              <div class="col-md-3 col-6 mb-4 position-relative"><div class="p-3 text-center"><h1 class="text-gradient text-dark"><span id="total-sapi">-</span></h1><h5 class="mt-3">Jumlah Sapi</h5><p class="text-sm font-weight-normal">Betina: <span id="sapi-betina">-</span> | Jantan: <span id="sapi-jantan">-</span></p></div><hr class="vertical dark d-md-block d-none"></div>
+              <div class="col-md-3 col-6 mb-4 position-relative"><div class="p-3 text-center"><h1 class="text-gradient text-dark"><span id="total-kambing">-</span></h1><h5 class="mt-3">Jumlah Kambing</h5><p class="text-sm font-weight-normal">Betina: <span id="kambing-betina">-</span> | Jantan: <span id="kambing-jantan">-</span></p></div><hr class="vertical dark d-md-block d-none"></div>
+              <div class="col-md-3 col-6 mb-4 position-relative"><div class="p-3 text-center"><h1 class="text-gradient text-dark"><span id="total-domba">-</span></h1><h5 class="mt-3">Jumlah Domba</h5><p class="text-sm font-weight-normal">Betina: <span id="domba-betina">-</span> | Jantan: <span id="domba-jantan">-</span></p></div><hr class="vertical dark d-md-block d-none"></div>
+              <div class="col-md-3 col-6 mb-4"><div class="p-3 text-center"><h1 class="text-gradient text-dark"><span id="total-lainnya">-</span></h1><h5 class="mt-3">Lainnya</h5><p class="text-sm font-weight-normal">Betina: <span id="lainnya-betina">-</span> | Jantan: <span id="lainnya-jantan">-</span></p></div></div>
             </div>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        Area Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar mr-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                DataTable Example
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$170,750</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ashton Cox</td>
-                                                <td>Junior Technical Author</td>
-                                                <td>San Francisco</td>
-                                                <td>66</td>
-                                                <td>2009/01/12</td>
-                                                <td>$86,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cedric Kelly</td>
-                                                <td>Senior Javascript Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>22</td>
-                                                <td>2012/03/29</td>
-                                                <td>$433,060</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Airi Satou</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>33</td>
-                                                <td>2008/11/28</td>
-                                                <td>$162,700</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Brielle Williamson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>New York</td>
-                                                <td>61</td>
-                                                <td>2012/12/02</td>
-                                                <td>$372,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Herrod Chandler</td>
-                                                <td>Sales Assistant</td>
-                                                <td>San Francisco</td>
-                                                <td>59</td>
-                                                <td>2012/08/06</td>
-                                                <td>$137,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Rhona Davidson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>Tokyo</td>
-                                                <td>55</td>
-                                                <td>2010/10/14</td>
-                                                <td>$327,900</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Colleen Hurst</td>
-                                                <td>Javascript Developer</td>
-                                                <td>San Francisco</td>
-                                                <td>39</td>
-                                                <td>2009/09/15</td>
-                                                <td>$205,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sonya Frost</td>
-                                                <td>Software Engineer</td>
-                                                <td>Edinburgh</td>
-                                                <td>23</td>
-                                                <td>2008/12/13</td>
-                                                <td>$103,600</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jena Gaines</td>
-                                                <td>Office Manager</td>
-                                                <td>London</td>
-                                                <td>30</td>
-                                                <td>2008/12/19</td>
-                                                <td>$90,560</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quinn Flynn</td>
-                                                <td>Support Lead</td>
-                                                <td>Edinburgh</td>
-                                                <td>22</td>
-                                                <td>2013/03/03</td>
-                                                <td>$342,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Charde Marshall</td>
-                                                <td>Regional Director</td>
-                                                <td>San Francisco</td>
-                                                <td>36</td>
-                                                <td>2008/10/16</td>
-                                                <td>$470,600</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Haley Kennedy</td>
-                                                <td>Senior Marketing Designer</td>
-                                                <td>London</td>
-                                                <td>43</td>
-                                                <td>2012/12/18</td>
-                                                <td>$313,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tatyana Fitzpatrick</td>
-                                                <td>Regional Director</td>
-                                                <td>London</td>
-                                                <td>19</td>
-                                                <td>2010/03/17</td>
-                                                <td>$385,750</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michael Silva</td>
-                                                <td>Marketing Designer</td>
-                                                <td>London</td>
-                                                <td>66</td>
-                                                <td>2012/11/27</td>
-                                                <td>$198,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Paul Byrd</td>
-                                                <td>Chief Financial Officer (CFO)</td>
-                                                <td>New York</td>
-                                                <td>64</td>
-                                                <td>2010/06/09</td>
-                                                <td>$725,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gloria Little</td>
-                                                <td>Systems Administrator</td>
-                                                <td>New York</td>
-                                                <td>59</td>
-                                                <td>2009/04/10</td>
-                                                <td>$237,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bradley Greer</td>
-                                                <td>Software Engineer</td>
-                                                <td>London</td>
-                                                <td>41</td>
-                                                <td>2012/10/13</td>
-                                                <td>$132,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dai Rios</td>
-                                                <td>Personnel Lead</td>
-                                                <td>Edinburgh</td>
-                                                <td>35</td>
-                                                <td>2012/09/26</td>
-                                                <td>$217,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jenette Caldwell</td>
-                                                <td>Development Lead</td>
-                                                <td>New York</td>
-                                                <td>30</td>
-                                                <td>2011/09/03</td>
-                                                <td>$345,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Yuri Berry</td>
-                                                <td>Chief Marketing Officer (CMO)</td>
-                                                <td>New York</td>
-                                                <td>40</td>
-                                                <td>2009/06/25</td>
-                                                <td>$675,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Caesar Vance</td>
-                                                <td>Pre-Sales Support</td>
-                                                <td>New York</td>
-                                                <td>21</td>
-                                                <td>2011/12/12</td>
-                                                <td>$106,450</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Doris Wilder</td>
-                                                <td>Sales Assistant</td>
-                                                <td>Sidney</td>
-                                                <td>23</td>
-                                                <td>2010/09/20</td>
-                                                <td>$85,600</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Angelica Ramos</td>
-                                                <td>Chief Executive Officer (CEO)</td>
-                                                <td>London</td>
-                                                <td>47</td>
-                                                <td>2009/10/09</td>
-                                                <td>$1,200,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gavin Joyce</td>
-                                                <td>Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>42</td>
-                                                <td>2010/12/22</td>
-                                                <td>$92,575</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jennifer Chang</td>
-                                                <td>Regional Director</td>
-                                                <td>Singapore</td>
-                                                <td>28</td>
-                                                <td>2010/11/14</td>
-                                                <td>$357,650</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Brenden Wagner</td>
-                                                <td>Software Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>28</td>
-                                                <td>2011/06/07</td>
-                                                <td>$206,850</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fiona Green</td>
-                                                <td>Chief Operating Officer (COO)</td>
-                                                <td>San Francisco</td>
-                                                <td>48</td>
-                                                <td>2010/03/11</td>
-                                                <td>$850,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shou Itou</td>
-                                                <td>Regional Marketing</td>
-                                                <td>Tokyo</td>
-                                                <td>20</td>
-                                                <td>2011/08/14</td>
-                                                <td>$163,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michelle House</td>
-                                                <td>Integration Specialist</td>
-                                                <td>Sidney</td>
-                                                <td>37</td>
-                                                <td>2011/06/02</td>
-                                                <td>$95,400</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Suki Burks</td>
-                                                <td>Developer</td>
-                                                <td>London</td>
-                                                <td>53</td>
-                                                <td>2009/10/22</td>
-                                                <td>$114,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prescott Bartlett</td>
-                                                <td>Technical Author</td>
-                                                <td>London</td>
-                                                <td>27</td>
-                                                <td>2011/05/07</td>
-                                                <td>$145,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gavin Cortez</td>
-                                                <td>Team Leader</td>
-                                                <td>San Francisco</td>
-                                                <td>22</td>
-                                                <td>2008/10/26</td>
-                                                <td>$235,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Martena Mccray</td>
-                                                <td>Post-Sales support</td>
-                                                <td>Edinburgh</td>
-                                                <td>46</td>
-                                                <td>2011/03/09</td>
-                                                <td>$324,050</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Unity Butler</td>
-                                                <td>Marketing Designer</td>
-                                                <td>San Francisco</td>
-                                                <td>47</td>
-                                                <td>2009/12/09</td>
-                                                <td>$85,675</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Howard Hatfield</td>
-                                                <td>Office Manager</td>
-                                                <td>San Francisco</td>
-                                                <td>51</td>
-                                                <td>2008/12/16</td>
-                                                <td>$164,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hope Fuentes</td>
-                                                <td>Secretary</td>
-                                                <td>San Francisco</td>
-                                                <td>41</td>
-                                                <td>2010/02/12</td>
-                                                <td>$109,850</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vivian Harrell</td>
-                                                <td>Financial Controller</td>
-                                                <td>San Francisco</td>
-                                                <td>62</td>
-                                                <td>2009/02/14</td>
-                                                <td>$452,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Timothy Mooney</td>
-                                                <td>Office Manager</td>
-                                                <td>London</td>
-                                                <td>37</td>
-                                                <td>2008/12/11</td>
-                                                <td>$136,200</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jackson Bradshaw</td>
-                                                <td>Director</td>
-                                                <td>New York</td>
-                                                <td>65</td>
-                                                <td>2008/09/26</td>
-                                                <td>$645,750</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Olivia Liang</td>
-                                                <td>Support Engineer</td>
-                                                <td>Singapore</td>
-                                                <td>64</td>
-                                                <td>2011/02/03</td>
-                                                <td>$234,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bruno Nash</td>
-                                                <td>Software Engineer</td>
-                                                <td>London</td>
-                                                <td>38</td>
-                                                <td>2011/05/03</td>
-                                                <td>$163,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sakura Yamamoto</td>
-                                                <td>Support Engineer</td>
-                                                <td>Tokyo</td>
-                                                <td>37</td>
-                                                <td>2009/08/19</td>
-                                                <td>$139,575</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Thor Walton</td>
-                                                <td>Developer</td>
-                                                <td>New York</td>
-                                                <td>61</td>
-                                                <td>2013/08/11</td>
-                                                <td>$98,540</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Finn Camacho</td>
-                                                <td>Support Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>47</td>
-                                                <td>2009/07/07</td>
-                                                <td>$87,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Serge Baldwin</td>
-                                                <td>Data Coordinator</td>
-                                                <td>Singapore</td>
-                                                <td>64</td>
-                                                <td>2012/04/09</td>
-                                                <td>$138,575</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Zenaida Frank</td>
-                                                <td>Software Engineer</td>
-                                                <td>New York</td>
-                                                <td>63</td>
-                                                <td>2010/01/04</td>
-                                                <td>$125,250</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Zorita Serrano</td>
-                                                <td>Software Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>56</td>
-                                                <td>2012/06/01</td>
-                                                <td>$115,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jennifer Acosta</td>
-                                                <td>Junior Javascript Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>43</td>
-                                                <td>2013/02/01</td>
-                                                <td>$75,650</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cara Stevens</td>
-                                                <td>Sales Assistant</td>
-                                                <td>New York</td>
-                                                <td>46</td>
-                                                <td>2011/12/06</td>
-                                                <td>$145,600</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hermione Butler</td>
-                                                <td>Regional Director</td>
-                                                <td>London</td>
-                                                <td>47</td>
-                                                <td>2011/03/21</td>
-                                                <td>$356,250</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lael Greer</td>
-                                                <td>Systems Administrator</td>
-                                                <td>London</td>
-                                                <td>21</td>
-                                                <td>2009/02/27</td>
-                                                <td>$103,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jonas Alexander</td>
-                                                <td>Developer</td>
-                                                <td>San Francisco</td>
-                                                <td>30</td>
-                                                <td>2010/07/14</td>
-                                                <td>$86,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shad Decker</td>
-                                                <td>Regional Director</td>
-                                                <td>Edinburgh</td>
-                                                <td>51</td>
-                                                <td>2008/11/13</td>
-                                                <td>$183,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michael Bruce</td>
-                                                <td>Javascript Developer</td>
-                                                <td>Singapore</td>
-                                                <td>29</td>
-                                                <td>2011/06/27</td>
-                                                <td>$183,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Donna Snider</td>
-                                                <td>Customer Support</td>
-                                                <td>New York</td>
-                                                <td>27</td>
-                                                <td>2011/01/25</td>
-                                                <td>$112,000</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ... (Section Grafik) ... -->
+    <section class="pb-5 pt-2 border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0"><h5 class="mb-4 text-center">Komposisi Populasi</h5><div style="height: 350px; position: relative;"><canvas id="populasiChart"></canvas></div></div>
+                <div class="col-lg-6"><h5 class="mb-4 text-center">Rincian Jantan vs Betina</h5><div style="height: 350px; position: relative;"><canvas id="genderChart"></canvas></div></div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/datatables-demo.js"></script>
-    </body>
+    </section>
+  </div>
+
+  <!-- ... (Section Daftar Peternak) ... -->
+  <div class="container my-5">
+    <div class="card shadow-lg">
+      <div class="card-body">
+        <section class="py-4">
+          <div class="container">
+            <div class="row"><div class="col-lg-12"><h5 class="mb-4" style="text-align: center;">Daftar Peternak dan Stok Ternak</h5></div></div>
+            <div class="row mb-4"><div class="col-lg-6 col-md-8 mx-auto"><div class="input-group input-group-outline"><label class="form-label">Cari nama peternak...</label><input type="text" id="searchInput" class="form-control"></div></div></div>
+            <div class="row" id="peternak-card-container" style="min-height: 200px;"><div class="col-12 text-center p-4"><p>Memuat data peternak...</p></div></div>
+            <div class="row mt-4"><div class="col-12 d-flex justify-content-center"><nav id="pagination-container"></nav></div></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERBAIKAN: FOOTER BARU YANG LEBIH MENARIK -->
+  <footer class="footer mt-5 pt-5 pb-4 bg-gray-900 text-white">
+    <div class="container">
+      <div class="row">
+        <!-- Kolom 1: Tentang -->
+        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+          <img src="./assets/img/log.png" height="50px" alt="SITernak Logo" class="mb-3">
+          <h6 class="text-white">Sistem Informasi Ternak Cimande</h6>
+          <p class="text-sm opacity-8">Platform digital untuk pendataan dan visualisasi populasi hewan ternak di Desa Cimande, hasil kolaborasi KKN Mahasiswa.</p>
+        </div>
+        <!-- Kolom 2: Tautan Cepat -->
+        <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+          <h6 class="text-white">Tautan Cepat</h6>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="index.php" class="text-sm text-white opacity-8">Beranda</a></li>
+            <li class="mb-2"><a href="tentang-kami.php" class="text-sm text-white opacity-8">Tentang Kami</a></li>
+            <?php if (isset($_SESSION['log']) && $_SESSION['log'] === true): ?>
+              <li class="mb-2"><a href="<?= $_SESSION['role'] === 'admin' ? 'admin.php' : 'profil.php' ?>" class="text-sm text-white opacity-8">Dashboard</a></li>
+            <?php else: ?>
+              <li class="mb-2"><a href="login.php" class="text-sm text-white opacity-8">Login</a></li>
+            <?php endif; ?>
+          </ul>
+        </div>
+        <!-- Kolom 3: Hubungi Kami -->
+        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+          <h6 class="text-white">Hubungi Kami</h6>
+          <div class="d-flex align-items-start mb-2">
+            <i class="material-symbols-rounded opacity-8 me-2 mt-1">place</i>
+            <span class="text-sm opacity-8">Kantor Desa Cimande, Kec. Caringin, <br>Kabupaten Bogor, Jawa Barat 16730</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-symbols-rounded opacity-8 me-2">mail</i>
+            <span class="text-sm opacity-8">kontak@cimande.desa.id</span>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <i class="material-symbols-rounded opacity-8 me-2">phone</i>
+            <span class="text-sm opacity-8">(0251) 123-4567</span>
+          </div>
+        </div>
+        <!-- Kolom 4: Sosial Media (opsional, bisa diisi nanti) -->
+        <div class="col-lg-2 col-md-6">
+           <h6 class="text-white">Ikuti Kami</h6>
+           <a href="#" class="text-white me-3"><i class="fab fa-facebook-f fa-lg opacity-8"></i></a>
+           <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg opacity-8"></i></a>
+           <a href="#" class="text-white"><i class="fab fa-youtube fa-lg opacity-8"></i></a>
+        </div>
+      </div>
+      <hr class="horizontal light my-4">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="text-sm text-white opacity-8 mb-0">
+            All rights reserved. Copyright © <script>document.write(new Date().getFullYear())</script> SITernak by KKN Cimande FILKOM x Faperta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/core/popper.min.js"></script>
+  <script src="js/core/bootstrap.min.js"></script>
+  <script src="js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="js/material-kit.min.js?v=3.1.0"></script>
+  <script>
+    // ... (Seluruh kode JavaScript tetap sama) ...
+    function updateText(id, value) { document.getElementById(id).textContent = value; }
+    fetch('api/stok-public.php')
+      .then(response => response.json())
+      .then(data => {
+        updateText('total-sapi', data.sapi.total); updateText('sapi-betina', data.sapi.total_betina); updateText('sapi-jantan', data.sapi.total_jantan);
+        updateText('total-kambing', data.kambing.total); updateText('kambing-betina', data.kambing.total_betina); updateText('kambing-jantan', data.kambing.total_jantan);
+        updateText('total-domba', data.domba.total); updateText('domba-betina', data.domba.total_betina); updateText('domba-jantan', data.domba.total_jantan);
+        updateText('total-lainnya', data.lainnya.total); updateText('lainnya-betina', data.lainnya.total_betina); updateText('lainnya-jantan', data.lainnya.total_jantan);
+        // 1. Render Pie Chart (Komposisi)
+        const pieCtx = document.getElementById('populasiChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Sapi', 'Kambing', 'Domba', 'Lainnya'],
+                datasets: [{
+                    label: 'Jumlah Populasi',
+                    // PERBAIKAN: Tukar warna hijau (#4CAF50) dan biru (#03A9F4)
+                    data: [data.sapi.total, data.kambing.total, data.domba.total, data.lainnya.total],
+                    backgroundColor: ['#E91E63', '#03A9F4', '#4CAF50', '#607D8B'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+        const barCtx = document.getElementById('genderChart').getContext('2d');
+        new Chart(barCtx, { type: 'bar', data: { labels: ['Sapi', 'Kambing', 'Domba', 'Lainnya'], datasets: [ { label: 'Betina', data: [data.sapi.total_betina, data.kambing.total_betina, data.domba.total_betina, data.lainnya.total_betina], backgroundColor: 'rgba(233, 30, 99, 0.7)', borderColor: '#E91E63', borderWidth: 1 }, { label: 'Jantan', data: [data.sapi.total_jantan, data.kambing.total_jantan, data.domba.total_jantan, data.lainnya.total_jantan], backgroundColor: 'rgba(3, 169, 244, 0.7)', borderColor: '#03A9F4', borderWidth: 1 } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { position: 'top' } } } });
+      })
+      .catch(error => console.error('Error fetching public stats:', error));
+    const cardContainer = document.getElementById('peternak-card-container');
+    const paginationContainer = document.getElementById('pagination-container');
+    const searchInput = document.getElementById('searchInput');
+    function renderPagination(pagination) { paginationContainer.innerHTML = ''; if (pagination.total_pages <= 1) return; let paginationHTML = '<ul class="pagination pagination-dark">'; paginationHTML += `<li class="page-item ${pagination.current_page === 1 ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${pagination.current_page - 1}">‹</a></li>`; for (let i = 1; i <= pagination.total_pages; i++) { paginationHTML += `<li class="page-item ${i === pagination.current_page ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`; } paginationHTML += `<li class="page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${pagination.current_page + 1}">›</a></li>`; paginationHTML += '</ul>'; paginationContainer.innerHTML = paginationHTML; }
+    function fetchPeternak(page = 1, searchTerm = '') {
+        cardContainer.innerHTML = '<div class="col-12 text-center p-4"><p>Memuat data peternak...</p></div>';
+        fetch(`api/peternak-list.php?page=${page}&search=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(response => {
+                cardContainer.innerHTML = '';
+                const peternakData = response.data;
+                const paginationData = response.pagination;
+
+                if (peternakData.length === 0) {
+                    cardContainer.innerHTML = `<div class="col-12 text-center p-4"><p>Data peternak tidak ditemukan.</p></div>`;
+                    paginationContainer.innerHTML = '';
+                    return;
+                }
+
+                peternakData.forEach(peternak => {
+                    const noHpDisplay = peternak.no_hp ? peternak.no_hp : '-';
+                    const alamatDisplay = peternak.alamat ? peternak.alamat : '-';
+
+                    // Render badge ternak
+                    let ternakBadges = '';
+                    let ternakList = '';
+                    let kategoriBadge = '';
+
+                    peternak.ternak.forEach((t, index) => {
+                        function getBadgeColor(jenis) {
+                            if (!jenis) return 'bg-gradient-dark';
+                            const j = jenis.toLowerCase();
+                            if (j.includes('sapi')) return 'bg-gradient-danger';
+                            if (j.includes('kambing')) return 'bg-gradient-info';
+                            if (j.includes('domba')) return 'bg-gradient-success';
+                            return 'bg-gradient-dark';
+                        }
+                        const badgeColor = getBadgeColor(t.jenis);
+
+                        // Ambil kategori dari data pertama aja
+                        if (index === 0 && t.kategori) {
+                            kategoriBadge = `<span class="badge bg-gradient-secondary ms-2 px-2 py-1">${t.kategori}</span>`;
+                        }
+
+                        // Badge jenis ternak
+                        ternakBadges += `<span class="badge ${badgeColor} me-1 px-2 py-1">${t.jenis}</span>`;
+
+                        ternakList += `
+                          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div>
+                              <div class="fw-bold text-capitalize">${t.jenis}</div>
+                              <div class="d-flex gap-3 mt-1">
+                                <span class="text-muted">Betina: <span class="fw-bold text-dark">${t.betina}</span></span>
+                                <span class="text-muted">Jantan: <span class="fw-bold text-dark">${t.jantan}</span></span>
+                                <span class="text-muted">Total: <span class="fw-bold text-dark">${t.total}</span></span>
+                              </div>
+                            </div>
+                          </li>`;
+
+                    });
+
+                    cardContainer.innerHTML += `
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <!-- Nama + kategori -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="icon icon-shape icon-sm bg-gradient-success shadow-success text-center me-3">
+                                            <i class="material-symbols-rounded opacity-10">person</i>
+                                        </div>
+                                        <h5 class="mb-0 font-weight-bolder">
+                                            ${peternak.nama_peternak} ${kategoriBadge}
+                                        </h5>
+                                    </div>
+
+                                    <!-- Badge jenis -->
+                                    <div class="mb-3">
+                                        ${ternakBadges}
+                                    </div>
+
+                                    <!-- List ternak -->
+                                    <ul class="list-group list-group-flush mb-3">
+                                        ${ternakList}
+                                    </ul>
+
+                                    <!-- Kontak -->
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="material-symbols-rounded align-middle me-2 text-muted" style="font-size: 18px;">call</i>
+                                        <span class="font-weight-bold">${noHpDisplay}</span>
+                                    </div>
+
+                                    <!-- Alamat -->
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-symbols-rounded align-middle me-2 text-muted" style="font-size: 18px;">home</i>
+                                        <span class="font-weight-bold">${alamatDisplay}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+
+
+
+                renderPagination(paginationData);
+            })
+            .catch(error => {
+                console.error('Error fetching peternak list:', error);
+                cardContainer.innerHTML = '<div class="col-12 text-center p-4 text-danger"><p>Gagal memuat data peternak.</p></div>';
+            });
+    }
+
+    paginationContainer.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (e.target.tagName === 'A' && e.target.dataset.page) {
+        const page = parseInt(e.target.dataset.page);
+        if (!isNaN(page)) {
+          fetchPeternak(page, searchInput.value);
+        }
+      }
+    });
+
+    let searchTimeout;
+    searchInput.addEventListener('keyup', function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        fetchPeternak(1, searchInput.value);
+      }, 300);
+    });
+
+    fetchPeternak(1);
+  </script>
+</body>
 </html>

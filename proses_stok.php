@@ -26,25 +26,26 @@ try {
     if ($action === 'insert') {
         $id_user = filter_input(INPUT_POST, 'id_user', FILTER_VALIDATE_INT);
         $id_jenis = filter_input(INPUT_POST, 'id_jenis', FILTER_VALIDATE_INT);
+        $id_kategori = filter_input(INPUT_POST, 'id_kategori', FILTER_VALIDATE_INT); // <-- BARU
         $jumlah_betina = filter_input(INPUT_POST, 'jumlah_betina', FILTER_VALIDATE_INT) ?? 0;
         $jumlah_jantan = filter_input(INPUT_POST, 'jumlah_jantan', FILTER_VALIDATE_INT) ?? 0;
         $keterangan = trim($_POST['keterangan'] ?? '');
         $tanggal = $_POST['tanggal'] ? date('Y-m-d H:i:s', strtotime($_POST['tanggal'])) : date('Y-m-d H:i:s');
         $jumlah = $jumlah_betina + $jumlah_jantan;
 
-        if (!$id_user || !$id_jenis) {
-            send_response('error', 'User dan Jenis Ternak wajib diisi.');
+        if (!$id_user || !$id_jenis || !$id_kategori) { // <-- BARU
+            send_response('error', 'User, Jenis, dan Kategori Ternak wajib diisi.');
         }
 
         // Insert ke stok_ternak
-        $stmt = $conn->prepare("INSERT INTO stok_ternak (id_user, id_jenis, jumlah_betina, jumlah_jantan, jumlah, keterangan, tanggal_update) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("iiiiiss", $id_user, $id_jenis, $jumlah_betina, $jumlah_jantan, $jumlah, $keterangan, $tanggal);
+        $stmt = $conn->prepare("INSERT INTO stok_ternak (id_user, id_jenis, id_kategori, jumlah_betina, jumlah_jantan, jumlah, keterangan, tanggal_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"); // <-- BARU
+        $stmt->bind_param("iiiiisss", $id_user, $id_jenis, $id_kategori, $jumlah_betina, $jumlah_jantan, $jumlah, $keterangan, $tanggal); // <-- BARU
         $stmt->execute();
         $id_stok = $conn->insert_id;
 
         // Insert ke riwayat
-        $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, 'insert', ?)");
-        $stmtRiwayat->bind_param("iiiisi", $id_stok, $id_user, $id_jenis, $jumlah, $keterangan, $admin_id);
+        $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, id_kategori, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, ?, 'insert', ?)"); // <-- BARU
+        $stmtRiwayat->bind_param("iiiiisi", $id_stok, $id_user, $id_jenis, $id_kategori, $jumlah, $keterangan, $admin_id); // <-- BARU
         $stmtRiwayat->execute();
 
         $_SESSION['success'] = "Stok berhasil ditambahkan!";
@@ -53,19 +54,20 @@ try {
     } elseif ($action === 'update') {
         $id_stok = filter_input(INPUT_POST, 'id_stok', FILTER_VALIDATE_INT);
         $id_jenis = filter_input(INPUT_POST, 'id_jenis', FILTER_VALIDATE_INT);
+        $id_kategori = filter_input(INPUT_POST, 'id_kategori', FILTER_VALIDATE_INT); // <-- BARU
         $jumlah_betina = filter_input(INPUT_POST, 'jumlah_betina', FILTER_VALIDATE_INT) ?? 0;
         $jumlah_jantan = filter_input(INPUT_POST, 'jumlah_jantan', FILTER_VALIDATE_INT) ?? 0;
         $keterangan = trim($_POST['keterangan'] ?? '');
         $tanggal = $_POST['tanggal'] ? date('Y-m-d H:i:s', strtotime($_POST['tanggal'])) : date('Y-m-d H:i:s');
         $jumlah = $jumlah_betina + $jumlah_jantan;
 
-        if (!$id_stok || !$id_jenis) {
-            send_response('error', 'ID Stok atau Jenis Ternak tidak valid.');
+        if (!$id_stok || !$id_jenis || !$id_kategori) { // <-- BARU
+            send_response('error', 'ID Stok, Jenis, atau Kategori tidak valid.');
         }
 
         // Update stok
-        $stmt = $conn->prepare("UPDATE stok_ternak SET id_jenis=?, jumlah_betina=?, jumlah_jantan=?, jumlah=?, keterangan=?, tanggal_update=? WHERE id_stok=?");
-        $stmt->bind_param("iiiissi", $id_jenis, $jumlah_betina, $jumlah_jantan, $jumlah, $keterangan, $tanggal, $id_stok);
+        $stmt = $conn->prepare("UPDATE stok_ternak SET id_jenis=?, id_kategori=?, jumlah_betina=?, jumlah_jantan=?, jumlah=?, keterangan=?, tanggal_update=? WHERE id_stok=?"); // <-- BARU
+        $stmt->bind_param("iiiisssi", $id_jenis, $id_kategori, $jumlah_betina, $jumlah_jantan, $jumlah, $keterangan, $tanggal, $id_stok); // <-- BARU
         $stmt->execute();
 
         // Ambil id_user untuk riwayat
@@ -75,8 +77,8 @@ try {
         $id_user = $stmtUser->get_result()->fetch_assoc()['id_user'];
 
         // Insert ke riwayat
-        $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, 'update', ?)");
-        $stmtRiwayat->bind_param("iiiisi", $id_stok, $id_user, $id_jenis, $jumlah, $keterangan, $admin_id);
+        $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, id_kategori, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, ?, 'update', ?)"); // <-- BARU
+        $stmtRiwayat->bind_param("iiiiisi", $id_stok, $id_user, $id_jenis, $id_kategori, $jumlah, $keterangan, $admin_id); // <-- BARU
         $stmtRiwayat->execute();
 
         $_SESSION['success'] = "Stok berhasil diupdate!";
@@ -84,20 +86,18 @@ try {
 
     } elseif ($action === 'delete') {
         $id_stok = filter_input(INPUT_POST, 'id_stok', FILTER_VALIDATE_INT);
-        if (!$id_stok) {
-            send_response('error', 'ID Stok tidak valid.');
-        }
+        if (!$id_stok) { send_response('error', 'ID Stok tidak valid.'); }
 
         // Ambil data sebelum dihapus untuk riwayat
-        $stmtAmbil = $conn->prepare("SELECT id_user, id_jenis, jumlah, keterangan FROM stok_ternak WHERE id_stok=?");
+        $stmtAmbil = $conn->prepare("SELECT id_user, id_jenis, id_kategori, jumlah, keterangan FROM stok_ternak WHERE id_stok=?"); // <-- BARU
         $stmtAmbil->bind_param("i", $id_stok);
         $stmtAmbil->execute();
         $data = $stmtAmbil->get_result()->fetch_assoc();
 
         if ($data) {
             // Simpan ke riwayat
-            $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, 'delete', ?)");
-            $stmtRiwayat->bind_param("iiiisi", $id_stok, $data['id_user'], $data['id_jenis'], $data['jumlah'], $data['keterangan'], $admin_id);
+            $stmtRiwayat = $conn->prepare("INSERT INTO riwayat_stok (id_stok, id_user, id_jenis, id_kategori, jumlah, keterangan, aksi, admin_id) VALUES (?, ?, ?, ?, ?, ?, 'delete', ?)"); // <-- BARU
+            $stmtRiwayat->bind_param("iiiiisi", $id_stok, $data['id_user'], $data['id_jenis'], $data['id_kategori'], $data['jumlah'], $data['keterangan'], $admin_id); // <-- BARU
             $stmtRiwayat->execute();
         }
 

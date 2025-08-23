@@ -4,13 +4,13 @@ require 'ceklogin.php';
 
 // Query gabungan stok ternak + user + jenis ternak
 $query = "
-    SELECT s.id_stok, s.id_user, j.id AS id_jenis, u.username, j.nama_ternak, k.nama_kategori,
+    SELECT s.id_stok, s.id_user, j.id AS id_jenis, k.id AS id_kategori, u.username, j.nama_ternak, k.nama_kategori,
        s.jumlah_betina, s.jumlah_jantan, s.jumlah,
        s.keterangan, s.tanggal_update
     FROM stok_ternak s
     JOIN users u ON s.id_user = u.id_user
     JOIN jenis_ternak j ON s.id_jenis = j.id
-    JOIN kategori_ternak k ON j.id_kategori = k.id
+    JOIN kategori_ternak k ON s.id_kategori = k.id
     ORDER BY s.tanggal_update DESC
 ";
 
@@ -202,7 +202,7 @@ if (!$result) {
                                         <tbody>
                                         <?= $no = 1;?>
                                         <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                                            <tr data-id="<?= $row['id_stok'] ?>" data-user-id="<?= $row['id_user'] ?>" data-jenis-id="<?= $row['id_jenis'] ?>">
+                                            <tr data-id="<?= $row['id_stok'] ?>" data-user-id="<?= $row['id_user'] ?>" data-jenis-id="<?= $row['id_jenis'] ?>" data-kategori-id="<?= $row['id_kategori'] ?>">
                                                 <td><?= $no++ ?> </td>
                                                 <td><?= htmlspecialchars($row['username']); ?></td>
                                                 <td><?= htmlspecialchars($row['nama_ternak']); ?></td>
@@ -290,9 +290,24 @@ if (!$result) {
                                     <option value="">Pilih Jenis Ternak</option>
                                     <?php
                                     $query = "SELECT id, nama_ternak FROM jenis_ternak ORDER BY nama_ternak ASC";
-                                    $result = mysqli_query($conn, $query);
-                                    while($row = mysqli_fetch_assoc($result)) {
-                                        echo '<option value="'.$row['id'].'">'.htmlspecialchars($row['nama_ternak']).'</option>';
+                                    $resultJenis = mysqli_query($conn, $query);
+                                    while($r = mysqli_fetch_assoc($resultJenis)) {
+                                        echo '<option value="'.$r['id'].'">'.htmlspecialchars($r['nama_ternak']).'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <!-- TAMBAHKAN DROPDOWN KATEGORI DI SINI -->
+                            <div class="form-group mt-3">
+                                <label for="idKategoriSelect">Kategori</label>
+                                <select name="id_kategori" id="idKategoriSelect" class="form-control select2-kategori" required>
+                                    <option value="">Pilih Kategori</option>
+                                    <?php
+                                    $qK = "SELECT id, nama_kategori FROM kategori_ternak ORDER BY nama_kategori ASC";
+                                    $resK = mysqli_query($conn, $qK);
+                                    while($k = mysqli_fetch_assoc($resK)) {
+                                        echo '<option value="'.$k['id'].'">'.htmlspecialchars($k['nama_kategori']).'</option>';
                                     }
                                     ?>
                                 </select>
